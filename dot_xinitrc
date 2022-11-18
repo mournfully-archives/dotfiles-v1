@@ -1,0 +1,47 @@
+#!/bin/sh
+# ~/.xinitrc - executed by startx (run your window manager here)
+
+# merge in defaults and keymaps
+userresources=$HOME/.Xresources
+usermodmap=$HOME/.Xmodmap
+
+[[ -f "$userresources" ]] && xrdb -merge "$userresources"
+[[ -f "$usermodmap" ]] && xmodmap "$usermodmap"
+
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi
+
+# XDG_RUNTIME_DIR env not set -- https://www.reddit.com/r/voidlinux/comments/m74p4g/xdg_runtime_dir_environment_variable/
+mkdir -p /tmp/${USER}-runtime 
+chmod -R 0700 /tmp/${USER}-runtime
+export XDG_RUNTIME_DIR=/tmp/${USER}-runtime
+pipewire &
+pipewire-pulse &
+
+# background processes
+# exec connman w/ cmst 	# network 
+# exec ...   	# bluetooth? (https://github.com/darkhz/bluetuith)
+# exec dunst	# notifications
+# exec tlp 		# power
+# exec ... 		# polkit? 
+setxkbmap -option ctrl:nocaps # make caps lock a control key
+
+# foreground processes
+export PATH=$PATH:$HOME/.local/bin/  # load user scripts for sxhkd
+sxhkd -c $HOME/.config/sxhkd/sxhkdrc & # hotkey daemon
+
+exec statusbar.sh & # custom status bar
+exec undocked.sh & # setup monitors & wallpaper
+# exec dbus-launch --autolaunch=$(cat /var/lib/dbus/machine-id) dwm  # launch window manager
+# exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus dwm
+# dbus-launch --sh-syntax --exit-with-session dwm
+# dbus-run-session dwm
+# exec dbus-launch --autolaunch=$(cat /var/lib/dbus/machine-id) dwm
+# exec dwm
+
+# start window manager -- https://wiki.archlinux.org/title/dwm#Restart_dwm
+exec startdwm.sh

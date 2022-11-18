@@ -1,0 +1,14 @@
+#!/bin/sh
+# cleaning $HOME directory
+export XDG_CONFIG_HOME=$HOME/.config # user configurations 
+export XDG_DATA_HOME=$HOME/.local/share # user data 
+export XDG_STATE_HOME=$HOME/.local/state # persistant state
+export XDG_CACHE_HOME=$HOME/.cache # cached data
+
+export ANDROID_HOME="$XDG_DATA_HOME"/android
+export TERMINFO_DIRS=":$XDG_DATA_HOME/terminfo" 
+export FREETYPE_PROPERTIES=“truetype:interpreter-version=38” # Subpixel hinting mode can be chosen by setting the right TrueType interpreter version. 
+
+if [ -n "$BASH_VERSION" ] && [ -f $HOME/.bashrc ];then
+    source $HOME/.bashrc
+fi

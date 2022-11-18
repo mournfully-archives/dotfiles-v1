@@ -1,0 +1,56 @@
+
+# LAUNCH APPS ========================  
+super + shift + r
+  reload-manager.sh 
+
+super + space
+  dmenu_run -i 
+
+super + Return
+  alacritty.sh
+
+super + shift + Return
+  chromium
+
+super + shift + i
+  code-oss
+
+super + shift + o
+  obsidian
+
+super + shift + y
+    alacritty --working-directory /home/local/ 
+
+# SCREENSHOT ===============================================================
+@Print
+  scrot --select -o -F 'screenshot.png' -e 'mv screenshot.png ~/Downloads/'
+
+# FUNCTION KEYS ====================================================
+# increase audio volume 
+XF86AudioRaiseVolume
+  pamixer -i 2
+  # amixer set Master 2%+
+
+# decrease audio volume 
+XF86AudioLowerVolume
+  pamixer -d 2
+  # amixer set Master 2%-
+
+# mute audio
+XF86AudioMute
+  pamixer -t
+  # amixer set Master toggle
+
+# play audio
+XF86AudioPlay
+  playerctl play-pause
+  # No players found ???
+
+# increase internal display brightness
+XF86MonBrightnessUp
+  xbacklight -inc 2 
+
+# deincrease internal display brightness
+XF86MonBrightnessDown
+  xbacklight -dec 2
+
