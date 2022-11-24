@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 alacritty --working-directory /home/local/ -e tmux &
 # all running instances of chromium MUST be down (pkill chromium)

@@ -36,10 +36,10 @@ pipewire-pulse &
 export PATH=$PATH:$HOME/.local/bin/  # load user scripts for sxhkd
 sxhkd -c $HOME/.config/sxhkd/sxhkdrc & # hotkey daemon
 
-exec statusbar.sh & # custom status bar
-exec undocked.sh & # setup monitors & wallpaper
+exec start-statusbar.sh & # custom status bar
+exec manager-undocked.sh & # setup monitors & wallpaper
 
 # start window manager -- https://wiki.archlinux.org/title/dwm#Restart_dwm
 exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
-exec startdwm.sh
+exec start-dwm.sh
 

@@ -15,7 +15,7 @@ export PATH=$PATH:$GOPATH/bin # user binaries
 
 # ENABLE COLOR SUPPORT
 alias grep='grep --color=auto' # colour matching strings 
-alias ls='ls --color=auto' # show all entries & colourze output
+alias ls='ls -x --color=auto' # show all entries & colourze output
 alias df='df -h' # make output human readable
 
 # QOL CHANGES
@@ -25,6 +25,8 @@ alias hist="history | tail -n 50 | cut -d' ' -f 4- | vim -" # show command histo
 alias size="du -hs" # show total size of directories and files
 alias dcomp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
 alias kcomp="sudo sv restart keyd && xset r rate 200 25"
+alias music="mpv --no-video --shuffle --loop https://www.youtube.com/playlist?list=PL9Ab4rBkjKBZ8BJ5ddguWq2jpFbzJ1Rrl"
+
 bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
 xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) and repeat rate (w/ default 25)
 if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty is tty1

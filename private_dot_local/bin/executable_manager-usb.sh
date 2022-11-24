@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # https://github.com/I-LeCorbeau/debian-live-build/blob/main/config/includes.chroot_after_packages/etc/skel/.local/bin/usbpoweroff
 poweroff() {

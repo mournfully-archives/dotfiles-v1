@@ -1,3 +1,0 @@
-#!/bin/sh
-input="$@" 
-$BROWSER "https://www.google.com/search?q=site%3Awww.reddit.com+$(echo $input | sed 's/ /+/g')"

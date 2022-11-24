@@ -1,12 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # https://github.com/saysjonathan/dwm.tmux/blob/master/bin/dwm.tmux
 subcommand=$1
 case $subcommand in
-    os) os.sh && sleep 5;;
+    os) open-stuff.sh && sleep 5;;
 esac 
-
-# make caps lock a control key
-# setxkbmap -option ctrl:nocaps 
 
 # setup external monitor as primary
 xrandr --output eDP-1 --mode 2256x1504 --pos 1920x0 --rotate normal --output DP-1 --primary --mode 1920x1080 --pos 0x0 --rotate normal --output HDMI-1 --off --output DP-2 --off --output HDMI-2 --off

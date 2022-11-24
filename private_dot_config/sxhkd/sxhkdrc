@@ -5,22 +5,20 @@ super + shift + r
   # reload-manager.sh 
 
 super + space
-  dmenu_run -i 
+    dmenu_run -i 
 
 super + Return
-  alacritty.sh
+    start-alacritty.sh
+    # alacritty --working-directory /home/local/ 
 
 super + shift + Return
-  chromium
+    chromium
 
 super + shift + i
-  code-oss
+    code-oss
 
 super + shift + o
-  obsidian
-
-super + shift + y
-    alacritty --working-directory /home/local/ 
+    exec $XDG_CONFIG_HOME/obsidian/Obsidian-1.0.0.AppImage
 
 # SCREENSHOT ===============================================================
 @Print
