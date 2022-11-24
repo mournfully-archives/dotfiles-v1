@@ -1,0 +1,3 @@
+#!/bin/sh
+input="$@" 
+$BROWSER "https://www.youtube.com/results?search_query=$(echo $input | sed 's/ /+/g')"

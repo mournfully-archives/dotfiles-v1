@@ -1,0 +1,3 @@
+#!/bin/sh
+cd /home/$USER/Downloads/smartgit/bin
+./smartgit.sh
