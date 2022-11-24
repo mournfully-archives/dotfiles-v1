@@ -19,6 +19,7 @@ fi
 mkdir -p /tmp/${USER}-runtime 
 chmod -R 0700 /tmp/${USER}-runtime
 export XDG_RUNTIME_DIR=/tmp/${USER}-runtime
+
 pipewire &
 pipewire-pulse &
 
@@ -28,7 +29,8 @@ pipewire-pulse &
 # exec dunst	# notifications
 # exec tlp 		# power
 # exec ... 		# polkit? 
-setxkbmap -option ctrl:nocaps # make caps lock a control key
+# setxkbmap -option ctrl:nocaps # make caps lock a control key
+# setxkbmap -option shift:both_capslock
 
 # foreground processes
 export PATH=$PATH:$HOME/.local/bin/  # load user scripts for sxhkd
@@ -36,12 +38,8 @@ sxhkd -c $HOME/.config/sxhkd/sxhkdrc & # hotkey daemon
 
 exec statusbar.sh & # custom status bar
 exec undocked.sh & # setup monitors & wallpaper
-# exec dbus-launch --autolaunch=$(cat /var/lib/dbus/machine-id) dwm  # launch window manager
-# exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus dwm
-# dbus-launch --sh-syntax --exit-with-session dwm
-# dbus-run-session dwm
-# exec dbus-launch --autolaunch=$(cat /var/lib/dbus/machine-id) dwm
-# exec dwm
 
 # start window manager -- https://wiki.archlinux.org/title/dwm#Restart_dwm
+exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
 exec startdwm.sh
+

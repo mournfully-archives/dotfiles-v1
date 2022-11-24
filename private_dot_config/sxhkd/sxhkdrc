@@ -1,7 +1,8 @@
 
-# LAUNCH APPS ========================  
+# LAUNCH APPS ==============================================================  
 super + shift + r
-  reload-manager.sh 
+  pkill -USR1 -x sxhkd 
+  # reload-manager.sh 
 
 super + space
   dmenu_run -i 
@@ -25,7 +26,7 @@ super + shift + y
 @Print
   scrot --select -o -F 'screenshot.png' -e 'mv screenshot.png ~/Downloads/'
 
-# FUNCTION KEYS ====================================================
+# FUNCTION KEYS ============================================================
 # increase audio volume 
 XF86AudioRaiseVolume
   pamixer -i 2
@@ -53,4 +54,3 @@ XF86MonBrightnessUp
 # deincrease internal display brightness
 XF86MonBrightnessDown
   xbacklight -dec 2
-

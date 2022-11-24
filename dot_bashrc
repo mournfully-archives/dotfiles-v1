@@ -7,6 +7,7 @@ export BROWSER='chromium'
 export HISTCONTROL=ignoreboth:erasedups
 
 export PATH=$PATH:$HOME/.local/bin/
+# export PATH=$PATH:$HOME/.local/bin/statusbar
 export PATH=/opt/texlive/2022/bin/x86_64-linux:$PATH
 export PATH=$PATH:/usr/local/go/bin # golang runtime binaries
 export GOPATH=$HOME/.go # golang user settings
@@ -22,10 +23,11 @@ alias wget="wget -c" # resume download if interupted
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" # update grub
 alias hist="history | tail -n 50 | cut -d' ' -f 4- | vim -" # show command history in vim
 alias size="du -hs" # show total size of directories and files
-alias comp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
+alias dcomp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
+alias kcomp="sudo sv restart keyd && xset r rate 200 25"
 bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
 xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) and repeat rate (w/ default 25)
-if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty
+if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty is tty1
 
 # insert a new line only when the last command output doesn't have one
 # https://unix.stackexchange.com/a/647881
@@ -38,8 +40,8 @@ NEW_LINE() {
 
     IFS='[;' read -p $'\e[6n' -d R -rs _ y x _
     if [[ "$x" != 1 ]]; then
-        printf "\n${LIGHT_YELLOW}^ missing newline (\\\n) at end of output\n${RESET}"
-        # printf "\n${RESET}"
+        # printf "\n${LIGHT_YELLOW}^ missing newline (\\\n) at end of output\n${RESET}"
+        printf "\n${RESET}"
     fi
 }
 
@@ -58,7 +60,18 @@ FG='\[\033[38;5;14m\]' # foreground color
 export PS1="\$(NEW_LINE)${BG}┌──(${FG}\u@\h${BG})${BG}-[${FG}\W${BG}]\n└─$ " # v2 bash prompt
 
 eval "$(jump shell bash)"
-export G_MESSAGES_DEBUS=playerclt
+export G_MESSAGES_DEBUS=playerctl
 
 
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  fi
+fi
 
+# https://russellparker.me/post/2018/02/16/tmux-bash-autocomplete/
+# https://github.com/imomaliev/tmux-bash-completion/blob/master/completions/tmux
+source /home/local/.local/share/bash-completion/completions/tmux

@@ -15,7 +15,6 @@ font:
     style: Regular
   # Point size
   size: 11.0
-
 colors:
   # Default colors
   primary:

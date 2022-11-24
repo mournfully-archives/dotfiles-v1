@@ -1,14 +1,21 @@
 " ~/.vimrc
 
 " VIM PLUGINS =====================================================================================================
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin()
   " https://github.com/junegunn/vim-plug
   " default plugin directory at '~/.vim/plugged'
   " reload .vimrc and :PlugInstall to install plugins.
 
   Plug 'preservim/nerdtree'  " a tree explorer plugin for vim. - https://github.com/preservim/nerdtree 
-  Plug 'ryanoasis/vim-devicons'  " add filetype icons for most file extensions  -  https://github.com/ryanoasis/vim-devicons
-  Plug 'catppuccin/vim', { 'as': 'catppuccin' }  " soothing pastel theme for vim - https://github.com/catppuccin/vim
+  Plug 'ryanoasis/vim-devicons'  " add filetype icons for most file extensions  -  https://github.com/ryanoasis/vim-devicon
+  " Plug 'catppuccin/vim', { 'as': 'catppuccin' }  " soothing pastel theme for vim - https://github.com/catppuccin/vim
+  Plug 'k4yt3x/ayu-vim-darker' " https://github.com/k4yt3x/ayu-vim-darker
   Plug 'rhysd/vim-healthcheck'  " polyfill of neovim's health-check - https://github.com/rhysd/vim-healthcheck
   Plug 'matze/vim-move'  " move lines and slections left/up/down/right - https://github.com/matze/vim-move
   
@@ -22,9 +29,12 @@ if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
 endif
 
 syntax on
-set background=dark
 set termguicolors
-colorscheme catppuccin_mocha
+let ayucolor="darker" " for dark version of theme
+colorscheme ayu
+ 
+" set background=dark
+" colorscheme catppuccin
 
 " NERDTREE ============================================================================================================================================
 " exit vim if nerdtree is the only window remaining in the only tab.
@@ -68,7 +78,7 @@ inoremap <expr> k JKescape('k')
 " MISC QOL CHANGES ===========================================================================================
 set number relativenumber
 set wrap linebreak nolist
-set ttimeoutlen=100  " https://www.reddit.com/r/vim/comments/40257u/delay_on_esc_with_tmux_and_vim/
+" set ttimeoutlen=100  " https://www.reddit.com/r/vim/comments/40257u/delay_on_esc_with_tmux_and_vim/
 
 set clipboard=unnamedplus
 set mouse=a
@@ -81,3 +91,21 @@ set expandtab  " on pressing tab, insert 4 spaces
 " https://stackoverflow.com/questions/248102/is-there-any-command-to-toggle-enable-auto-text-wrapping
 map <M-z> :set wrap!<CR>
 
+" Use a line cursor within insert mode and a block cursor everywhere else.
+" https://stackoverflow.com/questions/4777950/vim-change-block-cursor-when-in-insert-mode
+" https://nickjanetakis.com/blog/change-your-vim-cursor-from-a-block-to-line-in-normal-and-insert-mode
+"
+" Reference chart of values:
+"   Ps = 0  -> blinking block.
+"   Ps = 1  -> blinking block (default).
+"   Ps = 2  -> steady block.
+"   Ps = 3  -> blinking underline.
+"   Ps = 4  -> steady underline.
+"   Ps = 5  -> blinking bar (xterm).
+"   Ps = 6  -> steady bar (xterm).
+let &t_SI = "\e[5 q" " insert mode?
+let &t_EI = "\e[2 q" " visual mode?
+set ttimeout " Disable delay when hitting ESC and updating cursor
+set ttimeoutlen=1
+set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
+set ttyfast
