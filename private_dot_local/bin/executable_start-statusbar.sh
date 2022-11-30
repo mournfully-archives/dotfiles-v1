@@ -48,6 +48,7 @@ col_internet_ethernet=$col_lavender
 col_internet_ethernet_down=$col_red
 col_internet_vpn=$col_blue 
 
+col_volume_airpods=$col_blue
 col_volume_high=$col_lavender
 col_volume_medium=$col_lavender
 col_volume_low=$col_lavender
@@ -76,7 +77,7 @@ weather() {
   getforecast() { 
     # weather condition textual name and actual temperature 
     # echo "fetching weather data..."
-    curl -sf "wttr.in/$LOCATION?format=$FORMAT" & > "$weatherreport" || exit 1 ;
+    curl -sf "wttr.in/$LOCATION?format=$FORMAT" > "$weatherreport" || exit 1 ;
 
     # echo "replacing original icon with material-design-icon..."
     case "$(awk 'NR==1 {print $1}' "${weatherreport}" 2>&1)" in
@@ -99,7 +100,6 @@ weather() {
       "⛈") sed -i 's/⛈/󰙾/' $weatherreport ;; # ThunderyShowers
       "⛈") sed -i 's/⛈/󰙾/' $weatherreport ;; # ThunderySnowShowers
       "☁️") sed -i 's/☁️/󰖐/' $weatherreport ;; # VeryCloudy
-      *) echo "either there was an error or icon was already replaced"
     esac
     # echo "end of function getforecast()"
   }
@@ -172,7 +172,7 @@ network() {
     # measure wifi strength
     # https://stackoverflow.com/questions/53416728/iwconfig-proc-net-wireless-does-not-exist
     # https://unix.stackexchange.com/questions/407775/how-is-proc-net-wireless-a-clone-of-proc-net-dev
-    case "$(ip -br l | awk '$1 !~ "lo|vir" { print $1}')" in
+    case "$(ip -br l | awk '$1 !~ "lo|vir|veth|docker" {print $1}')" in
         "mlan0") val_internet="$(awk '/^\s*w*m/ {print int($3 * 100 / 70)}' /proc/net/wireless)" ;;
         "wlp2s0") val_internet="$(awk '/^\s*w/ {print int($3 * 100 / 70)}' /proc/net/wireless)" ;;
         *) echo "unknown network interface name"    
@@ -208,7 +208,13 @@ volume() {
       icon="^c$col_volume_unknown^󰋗";
     fi
 
-    printf "^c$base^%s ^c$base^%s%%" "$icon" "$val_volume"
+    current_sink="$(pactl info | sed -En 's/Default Sink: (.*)/\1/p')" 
+    case $current_sink in
+        "bluez_output.9C_28_B3_91_5C_DA.a2dp-sink") new_icon="^c$col_volume_airpods^󰂰" ;;
+        *) new_icon="${icon}"
+    esac
+    
+    printf "^c$base^%s ^c$base^%s%%" "$new_icon" "$val_volume"
   fi
 } 
 
@@ -246,13 +252,15 @@ battery() {
 
 sb-date() {
   # Prints out time and date - https://devhints.io/datetime
-  printf "^c$col_timestamp_time^󰃭 ^c$base^%s" "$(date '+%a %e %b %Y')" # Thu 13 May 2021
+  printf "^c$col_timestamp_date^󰃭 ^c$base^%s" "$(date '+%a %e %b %Y')" # Thu 13 May 2021
 }
 
 sb-time() {
-    printf "^c$col_timestamp_date^󰥔 ^c$base^%s" "$(date '+%I:%M:%S %p %Z')" # 01:01 AM EDT
+    printf "^c$col_timestamp_time^󰥔 ^c$base^%s" "$(date '+%I:%M:%S %p %Z')" # 01:01 AM EDT
 }
 
 while true; do
-    sleep 1 && xsetroot -name "| $(weather) | $(network) | $(volume) | $(battery) | $(sb-date) | $(sb-time) " 
+    sleep 1 
+    output="$(echo "         | $(weather) | $(network) | $(volume) | $(battery) | $(sb-date) | $(sb-time) " | sed "s/ | / ^c$base^| /g")"
+    xsetroot -name "$output"
 done

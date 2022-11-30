@@ -5,5 +5,5 @@ alacritty --working-directory /home/local/ -e tmux &
 chromium --restore-last-session &
 
 code-oss &
-obsidian &
+exec $XDG_CONFIG_HOME/obsidian/Obsidian-1.0.0.AppImage
 

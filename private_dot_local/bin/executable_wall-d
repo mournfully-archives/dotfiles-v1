@@ -85,7 +85,7 @@ done
 [ -z "$DIR" ] && usage && exit 0 # if no directory is set, print help message and exit
 
 #  show dmenu in pywal colors only if ran with -p flag
-source ~/.cache/wal/colors.sh
+# source ~/.cache/wal/colors.sh
 if [ "$WithPywall" = "True" ]; then
     colorOptions="-nb $color0 -nf $color15 -sb $color1 -sf $color15"
 else

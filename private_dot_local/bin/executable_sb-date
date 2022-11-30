@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 
+# col_white=#edeff1
+# col_rosewater=#f2d5cf
 source sb-colour-scheme
+
 base=$col_white
 col_timestamp_date=$col_rosewater
 
 # Prints out time and date - https://devhints.io/datetime - Thu 13 May 2021
-printf "^c$col_timestamp_time^󰃭 ^c$base^%s" "$(date '+%a %e %b %Y')" 
+printf "^c$col_timestamp_date^󰃭 ^c$base^%s" "$(date '+%a %e %b %Y')" 
