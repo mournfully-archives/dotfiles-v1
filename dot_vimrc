@@ -76,6 +76,10 @@ inoremap <expr> j JKescape('j')
 inoremap <expr> k JKescape('k')
 
 " MISC QOL CHANGES ===========================================================================================
+" set formatoptions? -> formatoptions=croql (default = tcq)
+" https://superuser.com/questions/271023/can-i-disable-continuation-of-comments-to-the-next-line-in-vim
+set formatoptions=tcq
+
 set number relativenumber
 set wrap linebreak nolist
 " set ttimeoutlen=100  " https://www.reddit.com/r/vim/comments/40257u/delay_on_esc_with_tmux_and_vim/
@@ -109,3 +113,5 @@ set ttimeout " Disable delay when hitting ESC and updating cursor
 set ttimeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 set ttyfast
+
+" autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"

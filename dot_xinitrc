@@ -1,45 +1,40 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # ~/.xinitrc - executed by startx (run your window manager here)
 
 # merge in defaults and keymaps
 userresources=$HOME/.Xresources
-usermodmap=$HOME/.Xmodmap
+# usermodmap=$HOME/.Xmodmap
 
 [[ -f "$userresources" ]] && xrdb -merge "$userresources"
-[[ -f "$usermodmap" ]] && xmodmap "$usermodmap"
+# [[ -f "$usermodmap" ]] && xmodmap "$usermodmap"
 
-if [ -d /etc/X11/xinit/xinitrc.d ] ; then
- for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
-  [ -x "$f" ] && . "$f"
- done
- unset f
-fi
+# if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+#  for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+#   [ -x "$f" ] && . "$f"
+#  done
+#  unset f
+# fi
 
-# XDG_RUNTIME_DIR env not set -- https://www.reddit.com/r/voidlinux/comments/m74p4g/xdg_runtime_dir_environment_variable/
-mkdir -p /tmp/${USER}-runtime 
-chmod -R 0700 /tmp/${USER}-runtime
-export XDG_RUNTIME_DIR=/tmp/${USER}-runtime
-
-pipewire &
-pipewire-pulse &
-
-# background processes
 # exec connman w/ cmst 	# network 
-# exec ...   	# bluetooth? (https://github.com/darkhz/bluetuith)
+# exec ...   	# bluetooth
 # exec dunst	# notifications
 # exec tlp 		# power
 # exec ... 		# polkit? 
-# setxkbmap -option ctrl:nocaps # make caps lock a control key
-# setxkbmap -option shift:both_capslock
 
-# foreground processes
-export PATH=$PATH:$HOME/.local/bin/  # load user scripts for sxhkd
-sxhkd -c $HOME/.config/sxhkd/sxhkdrc & # hotkey daemon
+xrdb -load ~/.Xresources # set dotfile configs for x client applications
+xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) and repeat rate (w/ default 25)
+
+exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
+# why did i have to run ^ in my shell for playerctl daemon to work?
+
+pipewire & # backend audio 
+pipewire-pulse & # integrate pulseaudio compatible clients with pipewire
+playerctld daemon &
+
+sxhkd -c $HOME/.config/sxhkd/sxhkdrc & # keyboard shortcuts ($PATH w/ scripts must be loaded before sxhkd)
+clipmenud & # clipboard manager
 
 exec start-statusbar.sh & # custom status bar
-exec manager-undocked.sh & # setup monitors & wallpaper
-
-# start window manager -- https://wiki.archlinux.org/title/dwm#Restart_dwm
-exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
-exec start-dwm.sh
+exec undocked.sh & # setup internal monitor & wallpaper
+exec dwm
 
