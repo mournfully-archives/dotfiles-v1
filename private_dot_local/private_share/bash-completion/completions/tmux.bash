@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# https://russellparker.me/post/2018/02/16/tmux-bash-autocomplete/
+# https://github.com/imomaliev/tmux-bash-completion/blob/master/completions/tmux
+    
 # Copy of https://github.com/Bash-it/bash-it/blob/master/completion/available/tmux.completion.bash
 # and https://github.com/przepompownia/bash-it/blob/master/completion/available/tmux.completion.bash
 # slightly refactored

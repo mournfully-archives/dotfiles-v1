@@ -70,7 +70,8 @@ export G_MESSAGES_DEBUS=playerctl
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
+      # for FILE in $XDG_DATA_HOME/bash-completion/completions/*; do source $FILE; done
+      . /usr/share/bash-completion/bash_completion
   fi
 fi
 
