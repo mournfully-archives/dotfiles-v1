@@ -7,6 +7,7 @@ export VISUAL='vim'
 export BROWSER='chromium'
 export HISTCONTROL=ignoreboth:erasedups
 export NO_AT_BRIDGE=1 # disable accessibity features
+export QT_STYLE_OVERRIDE=kvantum
 
 # path - search for executables in these directories
 export PATH=/opt/texlive/2022/bin/x86_64-linux:$PATH

@@ -1,35 +1,18 @@
 # ~/.bashrc - sourced every time a terminal is opened
 
-# SET ENVIRONMENT VARIABLES
-export EDITOR='vim'
-export VISUAL='vim'
-export BROWSER='chromium'
-export HISTCONTROL=ignoreboth:erasedups
+if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty is tty1
 
-export PATH=$PATH:$HOME/.local/bin/
-# export PATH=$PATH:$HOME/.local/bin/statusbar
-export PATH=/opt/texlive/2022/bin/x86_64-linux:$PATH
-export PATH=$PATH:/usr/local/go/bin # golang runtime binaries
-export GOPATH=$HOME/.go # golang user settings
-export PATH=$PATH:$GOPATH/bin # user binaries
-
-# ENABLE COLOR SUPPORT
 alias grep='grep --color=auto' # colour matching strings 
 alias ls='ls -x --color=auto' # show all entries & colourze output
 alias df='df -h' # make output human readable
-
-# QOL CHANGES
 alias wget="wget -c" # resume download if interupted
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" # update grub
-alias hist="history | tail -n 50 | cut -d' ' -f 4- | vim -" # show command history in vim
+
 alias size="du -hs" # show total size of directories and files
 alias dcomp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
 alias kcomp="sudo sv restart keyd && xset r rate 200 25"
-alias music="mpv --no-video --shuffle --loop https://www.youtube.com/playlist?list=PL9Ab4rBkjKBZ8BJ5ddguWq2jpFbzJ1Rrl"
-
-bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
-xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) and repeat rate (w/ default 25)
-if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty is tty1
+eval "$(jump shell bash)"
+export $(dbus-launch)
 
 # insert a new line only when the last command output doesn't have one
 # https://unix.stackexchange.com/a/647881
@@ -47,34 +30,16 @@ NEW_LINE() {
     fi
 }
 
-# how exit code of last command if it returned an error in bash prompt
-# https://unix.stackexchange.com/questions/653413/show-exit-code-of-last-command-in-bash-prompt-if-it-returned-error
-PROMPT_ECODE() {
-    local e=$?
-    ECODE=
-    (( e )) && ECODE="$e|"
-    return $e
-}
-
 BG='\[$(tput sgr0)\]' # background color
 FG='\[\033[38;5;14m\]' # foreground color
 # PROMPT_COMMAND=PROMPT_ECODE
 export PS1="\$(NEW_LINE)${BG}┌──(${FG}\u@\h${BG})${BG}-[${FG}\W${BG}]\n└─$ " # v2 bash prompt
 
-eval "$(jump shell bash)"
-export G_MESSAGES_DEBUS=playerctl
-
-
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
+bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
+# enable programmable completion features (you don't need to enable this, if it's already enabled in /etc/bash.bashrc which is sourced from /etc/profile
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion/bash_completion ]; then
       # for FILE in $XDG_DATA_HOME/bash-completion/completions/*; do source $FILE; done
       . /usr/share/bash-completion/bash_completion
   fi
 fi
-
-# https://russellparker.me/post/2018/02/16/tmux-bash-autocomplete/
-# https://github.com/imomaliev/tmux-bash-completion/blob/master/completions/tmux
-source /home/local/.local/share/bash-completion/completions/tmux
