@@ -31,7 +31,7 @@
     "workbench.sideBar.location": "right",
     "vscode-neovim.neovimInitVimPaths.linux": "~/.config/nvim/init.vim",
     "workbench.iconTheme": "moxer-icons",
-    "workbench.colorTheme": "Serendipity Midnight",
     "redhat.telemetry.enabled": false,
     "window.zoomLevel": -1,
+    "workbench.colorTheme": "Red One Dark Pro | Dark Bordered",
 }
