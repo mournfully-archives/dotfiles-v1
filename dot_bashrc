@@ -1,17 +1,24 @@
 # ~/.bashrc - sourced every time a terminal is opened
 
-if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi # start wm if tty is tty1
+# start wm if tty is tty1
+if [ $(tty) = /dev/tty1 ]; then startx exit 0; fi 
 
-alias grep='grep --color=auto' # colour matching strings 
-alias ls='ls -x --color=auto' # show all entries & colourze output
+# show all entries & colourze output
+# [Bug]: System alias ll='ls -l --color=auto' with aliases completion enabled breaks bash file/directory tab completion behavior #2174
+# https://github.com/Bash-it/bash-it/issues/2174
+alias ls='ls -x --color=auto'
+
+# colored grep - Need to check an existing file for a pattern that will be found to ensure
+alias grep='grep --color=auto'
+
 alias df='df -h' # make output human readable
 alias wget="wget -c" # resume download if interupted
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" # update grub
 
-alias size="du -hs" # show total size of directories and files
+alias size="du -hs" # show total size of directories and files 
 alias dcomp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
-alias kcomp="sudo sv restart keyd && xset r rate 200 25"
-eval "$(jump shell bash)"
+alias kcomp1="sudo sv restart keyd"
+alias kcomp2="xset r rate 200 25"
 export $(dbus-launch)
 
 # insert a new line only when the last command output doesn't have one
@@ -29,17 +36,24 @@ NEW_LINE() {
         printf "\n${RESET}"
     fi
 }
+BG='\[$(tput sgr0)\]'       # ┌──()-[] └─$          reset all attributes 
+FG1='\[$(tput setaf 9)\]'   # local@notebook        foreground color
+FG2='\[$(tput setaf 10)\]'  # ~/projects/           foreground color
+export PROMPT_DIRTRIM=3
+export PS1="\$(NEW_LINE)${BG}┌──[${FG1}\u@\h${BG}]${BG}[${FG2}\w${BG}]\n└─$ " # v2 bash promptA
 
-BG='\[$(tput sgr0)\]' # background color
-FG='\[\033[38;5;14m\]' # foreground color
-# PROMPT_COMMAND=PROMPT_ECODE
-export PS1="\$(NEW_LINE)${BG}┌──(${FG}\u@\h${BG})${BG}-[${FG}\W${BG}]\n└─$ " # v2 bash prompt
-
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && source /etc/profile.d/bash_completion.sh # Use bash-completion, if available
 bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
-# enable programmable completion features (you don't need to enable this, if it's already enabled in /etc/bash.bashrc which is sourced from /etc/profile
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-      # for FILE in $XDG_DATA_HOME/bash-completion/completions/*; do source $FILE; done
-      . /usr/share/bash-completion/bash_completion
-  fi
-fi
+# fzf keybindings - alt+c ctrl+t etc.
+# if [ -x "$(command -v fzf)" ]; then
+#     source /usr/share/fzf/key-bindings.bash
+# fi
+ 
+export BASH_IT="/home/local/.bash_it" # Path to the bash it configuration
+export BASH_IT_THEME="" # disable bash-it themes
+export BASH_IT_PROJECT_PATHS="${HOME}/projects" # Set this to the location of your work or project folders
+
+unset MAILCHECK # Don't check mail when opening terminal.
+export SCM_CHECK=false # Set this to false to turn off version control status checking within the prompt for all themes
+ 
+source "$BASH_IT"/bash_it.sh # Load Bash It

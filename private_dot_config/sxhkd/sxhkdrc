@@ -21,6 +21,18 @@ super + shift + i
 super + shift + o
     exec $XDG_CONFIG_HOME/obsidian/Obsidian-1.0.0.AppImage
 
+# HYPER KEYS
+# https://unix.stackexchange.com/questions/33501/single-set-of-keyboard-shortcuts-for-copy-paste-cut-across-all-x11-applications
+# https://manpages.ubuntu.com/manpages/focal/man1/xvkbd.1.html
+super + ctrl + shift + alt + x
+    clipmenu
+
+super + ctrl + shift + alt + c
+    xclip -selection primary -o | xclip -selection clipboard -i
+
+super + ctrl + shift + alt + v
+    xclip -selection clipboard -o | xvkbd -delay 0 -xsendevent -file - 2>/dev/null
+ 
 # SCREENSHOT ===============================================================
 @Print
   scrot --select -o -F 'screenshot.png' -e 'mv screenshot.png ~/Downloads/'

@@ -27,6 +27,7 @@ xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) 
 exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
 # why did i have to run ^ in my shell for playerctl daemon to work?
 
+batsignal -b & # battery monitor - warning alert at 15% and critical alert at 5%
 pipewire & # backend audio 
 pipewire-pulse & # integrate pulseaudio compatible clients with pipewire
 playerctld daemon &

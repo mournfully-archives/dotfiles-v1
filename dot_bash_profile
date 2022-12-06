@@ -6,8 +6,11 @@ export EDITOR='vim'
 export VISUAL='vim'
 export BROWSER='chromium'
 export HISTCONTROL=ignoreboth:erasedups
+
 export NO_AT_BRIDGE=1 # disable accessibity features
 export QT_STYLE_OVERRIDE=kvantum
+export FZF_DEFAULT_COMMAND="rg --files --follow --no-ignore-vcs --hidden -g '!{**/node_modules/*,**/.git/*}'"
+export LC_ALL="en_US.utf-8"
 
 # path - search for executables in these directories
 export PATH=/opt/texlive/2022/bin/x86_64-linux:$PATH
