@@ -22,7 +22,6 @@ userresources=$HOME/.Xresources
 # exec ... 		# polkit? 
 
 xrdb -load ~/.Xresources # set dotfile configs for x client applications
-xset r rate 200 25 # speed up repeat-key-delay (in milliseconds w/ default 660) and repeat rate (w/ default 25)
 
 exec dbus-daemon --session --address=unix:path=$XDG_RUNTIME_DIR/bus &
 # why did i have to run ^ in my shell for playerctl daemon to work?

@@ -172,7 +172,8 @@ network() {
     # measure wifi strength
     # https://stackoverflow.com/questions/53416728/iwconfig-proc-net-wireless-does-not-exist
     # https://unix.stackexchange.com/questions/407775/how-is-proc-net-wireless-a-clone-of-proc-net-dev
-    case "$(ip -br l | awk '$1 !~ "lo|vir|veth|docker" {print $1}')" in
+   
+    case "$(ip -br l | awk '$1 !~ "lo|vir|xnet|vmnet,vboxnet|virbr|ifb|docker|veth|eth|wlan|vnet" {print $1}')" in
         "mlan0") val_internet="$(awk '/^\s*w*m/ {print int($3 * 100 / 70)}' /proc/net/wireless)" ;;
         "wlp2s0") val_internet="$(awk '/^\s*w/ {print int($3 * 100 / 70)}' /proc/net/wireless)" ;;
         *) echo "unknown network interface name"    

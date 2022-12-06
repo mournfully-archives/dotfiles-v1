@@ -11,14 +11,11 @@ call plug#begin()
   " https://github.com/junegunn/vim-plug
   " default plugin directory at '~/.vim/plugged'
   " reload .vimrc and :PlugInstall to install plugins.
-
   Plug 'preservim/nerdtree'  " a tree explorer plugin for vim. - https://github.com/preservim/nerdtree 
   Plug 'ryanoasis/vim-devicons'  " add filetype icons for most file extensions  -  https://github.com/ryanoasis/vim-devicon
-  " Plug 'catppuccin/vim', { 'as': 'catppuccin' }  " soothing pastel theme for vim - https://github.com/catppuccin/vim
   Plug 'k4yt3x/ayu-vim-darker' " https://github.com/k4yt3x/ayu-vim-darker
   Plug 'rhysd/vim-healthcheck'  " polyfill of neovim's health-check - https://github.com/rhysd/vim-healthcheck
   Plug 'matze/vim-move'  " move lines and slections left/up/down/right - https://github.com/matze/vim-move
-  
 call plug#end()
 
 " TRUE COLORS ===============================================================
@@ -33,9 +30,6 @@ set termguicolors
 let ayucolor="darker" " for dark version of theme
 colorscheme ayu
  
-" set background=dark
-" colorscheme catppuccin
-
 " NERDTREE ============================================================================================================================================
 " exit vim if nerdtree is the only window remaining in the only tab.
 autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
@@ -82,7 +76,7 @@ set formatoptions=tcq
 
 set number relativenumber
 set wrap linebreak nolist
-" set ttimeoutlen=100  " https://www.reddit.com/r/vim/comments/40257u/delay_on_esc_with_tmux_and_vim/
+" set ttimeoutlen=100  https://www.reddit.com/r/vim/comments/40257u/delay_on_esc_with_tmux_and_vim/
 
 set clipboard=unnamedplus
 set mouse=a
@@ -113,5 +107,3 @@ set ttimeout " Disable delay when hitting ESC and updating cursor
 set ttimeoutlen=1
 set listchars=tab:>-,trail:~,extends:>,precedes:<,space:.
 set ttyfast
-
-" autocmd BufWritePost ~/.local/share/chezmoi/* ! chezmoi apply --source-path "%"
