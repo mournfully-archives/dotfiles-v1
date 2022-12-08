@@ -16,9 +16,12 @@ alias wget="wget -c" # resume download if interupted
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg" # update grub
 
 alias size="du -hs" # show total size of directories and files 
-alias dcomp="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
-alias kcomp1="sudo sv restart keyd"
-alias kcomp2="xset r rate 200 25"
+alias color="find-color-code.sh --no-preview --stdout" # --rgb flag for other format
+alias git-pretty-graph="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
+alias comp_dwm="sudo rm config.h && sudo make clean install"  # dwm and dmenu QoL
+alias comp_kb_1="sudo sv restart keyd"
+alias comp_kb_2="xset r rate 200 25"
+
 export $(dbus-launch)
 eval "$(jump shell)" # https://github.com/gsamokovarov/jump
 
@@ -45,11 +48,15 @@ export PS1="\$(NEW_LINE)${BG}┌──[${FG1}\u@\h${BG}]${BG}[${FG2}\w${BG}]\n�
 
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && source /etc/profile.d/bash_completion.sh # Use bash-completion, if available
 bind "set completion-ignore-case on" # ignore upper and lowercase when TAB completion
- 
-# fzf keybindings - alt+c ctrl+t etc.
-# if [ -x "$(command -v fzf)" ]; then
-#     source /usr/share/fzf/key-bindings.bash
-# fi
+
+export FZF_BASE="/usr/local/bin/fzf"
+export FZF_CTRL_T_COMMAND="fd --hidden --follow --exclude \".git\" . $HOME"
+export FZF_ALT_C_COMMAND="fd -t d --hidden --follow --exclude \".git\" . $HOME"
+# dont forget that fzf completions needs to be patched to work with fd 
+# fzf keybindings - alt+c aka cd into the selected dir 
+if [ -x "$(command -v fzf)" ]; then
+    source /usr/share/fzf/key-bindings.bash
+fi
  
 # export BASH_IT="/home/local/.bash_it" # Path to the bash it configuration
 # export BASH_IT_THEME="" # disable bash-it themes

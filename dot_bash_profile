@@ -10,7 +10,6 @@ export PAGER="/usr/bin/most -s" # xi -y most
 
 export NO_AT_BRIDGE=1 # disable accessibity features
 export QT_STYLE_OVERRIDE=kvantum
-export FZF_DEFAULT_COMMAND="rg --files --follow --no-ignore-vcs --hidden -g '!{**/node_modules/*,**/.git/*}'"
 export LC_ALL="en_US.utf-8"
 
 # path - search for executables in these directories
